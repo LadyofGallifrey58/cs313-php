@@ -43,8 +43,9 @@ CREATE TABLE accounts (
     name character varying NOT NULL,
     password character varying NOT NULL,
     email character varying NOT NULL,
-    security_q character varying NOT NULL,
-    security_a character varying NOT NULL
+    security_q numeric(10,0) NOT NULL,
+    security_a character varying NOT NULL,
+    financial_info bigint
 );
 
 
@@ -80,7 +81,6 @@ CREATE TABLE addresses (
     street_address character varying NOT NULL,
     city character varying NOT NULL,
     state character varying(2) NOT NULL,
-    county character varying NOT NULL,
     zip_code numeric(5,0)
 );
 
@@ -213,7 +213,7 @@ ALTER TABLE ONLY financial ALTER COLUMN financial_id SET DEFAULT nextval('financ
 -- Data for Name: accounts; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY accounts (account_id, name, password, email, security_q, security_a) FROM stdin;
+COPY accounts (account_id, name, password, email, security_q, security_a, financial_info) FROM stdin;
 \.
 
 
@@ -228,7 +228,11 @@ SELECT pg_catalog.setval('accounts_account_id_seq', 1, false);
 -- Data for Name: addresses; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY addresses (address_id, street_address, city, state, county, zip_code) FROM stdin;
+COPY addresses (address_id, street_address, city, state, zip_code) FROM stdin;
+1	11038 Victory Ave.	Oakdale	CA	95361
+2	2754 Topeka St.	Riverbank	CA	95367
+3	1313 Disneyland Dr.	Anaheim	CA	92802
+4	3501 McHenry Ave.	Modesto	CA	95356
 \.
 
 
@@ -236,7 +240,7 @@ COPY addresses (address_id, street_address, city, state, county, zip_code) FROM 
 -- Name: addresses_address_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('addresses_address_id_seq', 1, false);
+SELECT pg_catalog.setval('addresses_address_id_seq', 4, true);
 
 
 --
@@ -244,6 +248,14 @@ SELECT pg_catalog.setval('addresses_address_id_seq', 1, false);
 --
 
 COPY books (book_id, book_name, price, author, release_date) FROM stdin;
+1	Peter Pan	$14.99	J. M. Barrie	1911-10-11
+2	Alice in Wonderland	$14.99	Lewis Carroll	1865-11-26
+3	Harry Potter and the Sorcerer's Stone	$17.99	J. K. Rowling	1997-06-26
+4	Twilight	$9.99	Stephanie Meyer	2005-10-05
+5	The Wonderful Wizard of Oz	$150.00	L. Frank Baum	1900-05-17
+6	The Hobbit	$11.99	J. R. R. Tolkien	1937-09-21
+7	X-Men #101	$163.00	Stan Lee & Jack Kirby/ Chris Claremont	1976-10-10
+8	Summer Falls	$9.99	Amelia Williams/ James Goss	2013-10-22
 \.
 
 
@@ -251,7 +263,7 @@ COPY books (book_id, book_name, price, author, release_date) FROM stdin;
 -- Name: books_book_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('books_book_id_seq', 1, false);
+SELECT pg_catalog.setval('books_book_id_seq', 8, true);
 
 
 --
@@ -299,6 +311,14 @@ ALTER TABLE ONLY books
 
 ALTER TABLE ONLY financial
     ADD CONSTRAINT financial_pkey PRIMARY KEY (financial_id);
+
+
+--
+-- Name: accounts accounts_financial_info_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY accounts
+    ADD CONSTRAINT accounts_financial_info_fkey FOREIGN KEY (financial_info) REFERENCES financial(financial_id);
 
 
 --
