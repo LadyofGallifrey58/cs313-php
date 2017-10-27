@@ -1,0 +1,4 @@
+$(".browse").click(function(){
+	$("#choice").val($("browse").val());
+	$("#choice").text($("browse").val());
+    });
