@@ -94,7 +94,7 @@ if ((!isset($_SESSION['userEmail']) && !isset($_SESSION['userPassword'])) && (is
                   <button type="submit" class="btn btn-primary">Sign in</button>
                </form>
             <div class="dropdown-divider"></div>
-               <a class="dropdown-item" href="#">Sign up</a>
+               <a class="dropdown-item" href="signUp.php">Sign up</a>
                <a class="dropdown-item" href="#">Forgot password?</a>
             </div>
          </div>
