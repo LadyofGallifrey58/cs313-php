@@ -10,7 +10,7 @@ error_reporting(E_ALL);
 $dbUrl = getenv('DATABASE_URL');
 
 if (empty($dbUrl)) {
-   $dbUrl = "postgres://postgres:password@localhost:5432/mydb";
+   $dbUrl = "postgres://master:password@localhost:5432/mydb";
 }
 
 $dbopts = parse_url($dbUrl);
@@ -109,6 +109,11 @@ if ((!isset($_SESSION['userEmail']) && !isset($_SESSION['userPassword'])) && (is
                <div class="dropdown-divider"></div>
                <a class="dropdown-item" href="#">Account Info</a>
                <a class="dropdown-item" href="#">My Cart</a>
+               <?php  if ($_SESSION['first_name'] == 'master') {
+               //master user check …maybe add new session var? above won’t work
+               ?>
+               <a class="dropdown-item" href="#">Edit</a> 
+               <?php } ?>
                <a class="dropdown-item" href="#"><?php echo "Not " . $_SESSION['first_name'] . "? Sign Out" ?></a>
             </div>
          </div>
